@@ -2,6 +2,8 @@ import pandas as pd
 import sqlite3
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
+from flask import current_app
 
 def create_scatter_plot(x_col, y_col):
     try:
@@ -23,7 +25,10 @@ def create_scatter_plot(x_col, y_col):
         plt.ylabel(y_col)
         #グラフをファイルに保存
 
-        fig_path = "static/scatter.png"
+
+        os.makedirs(os.path.join(current_app.root_path, "static"), exist_ok=True)
+        fig_path = os.path.join(current_app.root_path, "static", "scatter.png")
+
         plt.savefig(fig_path)
         plt.close()
 
