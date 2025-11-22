@@ -30,6 +30,8 @@ def scatter():
 
     if fig_path and os.path.exists(fig_path):
         return send_file(fig_path, mimetype="image/png")
+    elif not fig_path:
+        return "散布図は作成されませんでした"
     else:
         return "散布図は作成されませんでした(軸が未入力です)"
 

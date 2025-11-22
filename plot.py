@@ -32,6 +32,7 @@ def create_scatter_plot(x_col, y_col):
         plt.savefig(fig_path)
         plt.close()
 
+        print("保存先：", fig_path, "存在する？", os.path.exists(fig_path))
         return fig_path
     
     except Exception as e:
