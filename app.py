@@ -41,6 +41,10 @@ def clear():
     # results を空にして index.html を再表示
     return render_template("index.html", results=[], columns=columns)
 
+@app.route("/healthz")
+def healthz():
+    return "ok", 200
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
 
