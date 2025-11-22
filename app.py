@@ -4,6 +4,7 @@ from plot import create_scatter_plot
 from database import get_columns
 import threading
 from watchdog_runner import start_watchdog
+import os
 
 app = Flask(__name__)
 initialize_database()
@@ -26,7 +27,8 @@ def scatter():
     x_col = request.form["x_col"]
     y_col = request.form["y_col"]
     fig_path = create_scatter_plot(x_col, y_col)
-    if fig_path:
+
+    if fig_path and os.path.exists(fig_path):
         return send_file(fig_path, mimetype="image/png")
     else:
         return "散布図は作成されませんでした(軸が未入力です)"
