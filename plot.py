@@ -19,7 +19,7 @@ def create_scatter_plot(x_col, y_col):
         df = df[[x_col, y_col]].dropna()
 
         plt.figure(figsize=(8, 6))
-        sns.scatterplot(data=df, x=x_col, y=y_col, s=10)
+        sns.scatterplot(data=df, x=x_col, y=y_col, alpha=0.3, s=2)
         plt.title(f"{x_col} vs {y_col}")
         plt.xlabel(x_col)
         plt.ylabel(y_col)
