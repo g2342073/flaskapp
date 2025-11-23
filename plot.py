@@ -24,10 +24,10 @@ def create_scatter_plot(x_col, y_col):
 
         for i in range(0, len(df), batch_size):
             batch = df.iloc[i:i+batch_size]
-
+        
         plt.figure(figsize=(8, 6))
         sns.scatterplot(data=df, x=x_col, y=y_col, alpha=0.3, s=2)
-        plt.title(f"{x_col} vs {y_col}")
+        plt.title(f"{x_col} vs {y_col} (batch {i//batch_size+1})")
         plt.xlabel(x_col)
         plt.ylabel(y_col)
         #グラフをファイルに保存
@@ -38,8 +38,6 @@ def create_scatter_plot(x_col, y_col):
                 "static",
                 f"scatter_batch_{i//batch_size+1}.png"
             )
-
-
         plt.savefig(fig_path)
         plt.close()
 
