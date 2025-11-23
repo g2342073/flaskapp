@@ -41,7 +41,7 @@ def create_scatter_plot(x_col, y_col):
             fig_paths.append(fig_path)
 
         print("保存したファイル:", fig_paths)
-        return fig_paths
+        return {"files": fig_path}
 
     except Exception as e:
         print("散布図にエラーが発生しました：", e)
