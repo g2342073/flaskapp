@@ -11,8 +11,6 @@ def create_scatter_plot(x_col, y_col):
         df = pd.read_sql_query("SELECT * FROM excel_starrydata", conn)
         conn.close()
 
-
-        #軸に指定がないときは散布図を作らずに終了する
         if not x_col or not y_col:
             return None
 
@@ -20,30 +18,31 @@ def create_scatter_plot(x_col, y_col):
 
         batch_size = 1000
         os.makedirs(os.path.join(current_app.root_path, "static"), exist_ok=True)
-        fig_path = []
+        fig_paths = []
 
+        # 1000件ずつ分割して描画
         for i in range(0, len(df), batch_size):
             batch = df.iloc[i:i+batch_size]
-        
-        plt.figure(figsize=(8, 6))
-        sns.scatterplot(data=df, x=x_col, y=y_col, alpha=0.3, s=2)
-        plt.title(f"{x_col} vs {y_col} (batch {i//batch_size+1})")
-        plt.xlabel(x_col)
-        plt.ylabel(y_col)
-        #グラフをファイルに保存
 
+            plt.figure(figsize=(8, 6))
+            sns.scatterplot(data=batch, x=x_col, y=y_col, alpha=0.3, s=2)
+            plt.title(f"{x_col} vs {y_col} (batch {i//batch_size+1})")
+            plt.xlabel(x_col)
+            plt.ylabel(y_col)
 
-        fig_path = os.path.join(
+            fig_path = os.path.join(
                 current_app.root_path,
                 "static",
                 f"scatter_batch_{i//batch_size+1}.png"
             )
-        plt.savefig(fig_path)
-        plt.close()
+            plt.savefig(fig_path)
+            plt.close()
 
-        print("保存先：", fig_path, "存在する？", os.path.exists(fig_path))
-        return fig_path
-    
+            fig_paths.append(fig_path)
+
+        print("保存したファイル:", fig_paths)
+        return fig_paths
+
     except Exception as e:
         print("散布図にエラーが発生しました：", e)
         return None
