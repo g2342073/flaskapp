@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, send_file
 from database import initialize_database, search_database, get_columns
-from plot import create_scatter_plot
+from plot import create_scatter_plot, get_scatter_columns
 import threading
 from watchdog_runner import start_watchdog
 import os
@@ -12,6 +12,7 @@ threading.Thread(target = start_watchdog, daemon = True).start()
 @app.route("/", methods = ["GET", "POST"])
 def index():
     columns = get_columns()
+    scatter_columns = get_scatter_columns()
 
     results = None
     if request.method == "POST":
@@ -19,7 +20,7 @@ def index():
         if query:
 
             results = search_database(query)
-    return render_template("index.html", results=results, columns=columns)
+    return render_template("index.html", results=results, columns=columns, scatter_columns=scatter_columns)
 
 @app.route("/scatter", methods = ["POST"])
 def scatter():
@@ -40,8 +41,9 @@ def scatter():
 @app.route("/clear", methods=["POST"])
 def clear():
     columns =   get_columns()  
+    scatter_columns=get_scatter_columns()
     # results を空にして index.html を再表示
-    return render_template("index.html", results=[], columns=columns)
+    return render_template("index.html", results=[], columns=columns, scatter_columns=scatter_columns)
 
 @app.route("/healthz")
 def healthz():

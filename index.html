@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>検索と散布図</title>
+</head>
+<body>
+    <h1>データ検索</h1>
+    <form method="POST" action="/">
+        <input type="text" name="query" placeholder="キーワードを入力">
+        <button type="submit">検索</button>
+    </form>
+
+    {% if results %}
+        <h2>検索結果</h2>
+        <table border="1" cellpadding="5" cellspacing="0">
+            <thead>
+                <tr>
+                    {% for col in columns %}
+                        <th>{{col}}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in results %}
+                    <tr>
+                        {%for item in row %}
+                            <td>{{item}}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>検索結果はありません</p>
+    {% endif %}
+    
+    <form method="POST" action="/clear">
+        <button type="submit">検索結果をクリア</button>
+    </form>
+    
+    <form method="POST" action="/scatter">
+        <label for="x_col">X軸:</label>
+        <select name="x_col">
+            {% for col in scatter_columns %}
+                <option value="{{ col }}">{{ col }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="y_col">Y軸:</label>
+        <select name="y_col">
+            {% for col in scatter_columns %}
+                <option value="{{ col }}">{{ col }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">散布図を作成</button>
+    </form>
+    
+</body>
+</html>
