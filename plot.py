@@ -3,16 +3,23 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import os
 from flask import current_app
+import gdown
 
-# 散布図用の CSV ファイル（Google Drive 直リンクなど）
-CSV_URL = "https://drive.google.com/uc?id=1tXaq961lBxWtHi4HV2kKXrfFOVB_ZTjZ&export=download"  # ←ここを散布図用CSVに変更
+
+FILE_ID = "1tXaq961lBxWtHi4HV2kKXrfFOVB_ZTjZ"
+URL = f"https://drive.google.com/uc?id={FILE_ID}"
+OUTPUT = "starrydata_curves.csv"
+
+if not os.path.exists(OUTPUT):
+    gdown.download(URL, OUTPUT, quiet=False)
+
 
 def get_scatter_columns():
     """
     散布図用CSVから列名を返す
     """
     try:
-        df = pd.read_csv(CSV_URL, nrows=1)  # 1行だけ読む
+        df = pd.read_csv(OUTPUT, nrows=1)  # 1行だけ読む
         return list(df.columns)
     except Exception as e:
         print("列名取得に失敗しました:", e)
@@ -23,7 +30,7 @@ def create_scatter_plot(x_col, y_col, sample_size=8000):
     指定された列を使って散布図を作成し、static フォルダに保存する
     """
     try:
-        df = pd.read_csv(CSV_URL)
+        df = pd.read_csv(OUTPUT)
         df = df[[x_col, y_col]].dropna()
 
         if len(df) == 0:
