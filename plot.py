@@ -23,8 +23,8 @@ def create_scatter_plot(x_col, y_col):
         
 
 
-        plt.figure(figsize=(8, 6))
-        sns.scatterplot(data=df_sample, x=x_col, y=y_col, alpha=0.3, s=2)
+        plt.figure(figsize=(12, 8))
+        sns.scatterplot(data=df_sample, x=x_col, y=y_col, alpha=0.6, s=10)
         plt.title(f"{x_col} vs {y_col} (sample {sample_size})")
         plt.xlabel(x_col)
         plt.ylabel(y_col)
