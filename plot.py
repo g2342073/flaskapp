@@ -16,7 +16,7 @@ def create_scatter_plot(x_col, y_col):
 
         df = df[[x_col, y_col]].dropna()
 
-        sample_size = min(1000, len(df))
+        sample_size = min(5000, len(df))
         df_sample = df.sample(n=sample_size, random_state=1)
 
         os.makedirs(os.path.join(current_app.root_path, "static"), exist_ok=True)
@@ -24,10 +24,10 @@ def create_scatter_plot(x_col, y_col):
 
 
         plt.figure(figsize=(12, 8))
-        sns.scatterplot(data=df_sample, x=x_col, y=y_col, alpha=0.6, s=10)
-        plt.title(f"{x_col} vs {y_col} (sample {sample_size})")
-        plt.xlabel(x_col)
-        plt.ylabel(y_col)
+        sns.scatterplot(data=df_sample, x=x_col, y=y_col, alpha=0.5, s=8)
+        plt.title(f"{x_col} vs {y_col} (sample {sample_size})", fontsize=16)
+        plt.xlabel(x_col, fontsize=14)
+        plt.ylabel(y_col, fontsize=14)
 
         fig_path = os.path.join(
                 current_app.root_path,
