@@ -16,6 +16,11 @@ def create_scatter_plot(x_col, y_col):
 
         df = df[[x_col, y_col]].dropna()
 
+        if len(df) == 0:
+            print("データが空です")
+            return None
+
+
         sample_size = min(8000, len(df))
         df_sample = df.sample(n=sample_size, random_state=1)
 
