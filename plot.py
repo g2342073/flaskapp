@@ -28,7 +28,7 @@ def create_scatter_plot(x_col, y_col):
         plt.title(f"{x_col} vs {y_col} (sample {sample_size})", fontsize=16)
         plt.xlabel(x_col, fontsize=14)
         plt.ylabel(y_col, fontsize=14)
-        plt.xticks(rotation=90)   # 横軸ラベルを縦に表示
+        
 
         fig_path = os.path.join(
                 current_app.root_path,
