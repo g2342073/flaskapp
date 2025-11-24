@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, send_file
 from database import initialize_database, search_database, get_columns
 from plot import create_scatter_plot
-from database import get_columns
 import threading
 from watchdog_runner import start_watchdog
 import os
@@ -26,14 +25,17 @@ def index():
 def scatter():
     x_col = request.form["x_col"]
     y_col = request.form["y_col"]
-    fig_path = create_scatter_plot(x_col, y_col)
+    filename = create_scatter_plot(x_col, y_col)
 
-    if fig_path and os.path.exists(fig_path):
-        return send_file(fig_path, mimetype="image/png")
-    elif not fig_path:
-        return "散布図は作成されませんでした"
+    if filename:
+        static_path = os.path.join(app.root_path, "static", filename)
+        if os.path.exists(static_path):
+            return send_file(static_path, mimetype="image/png")
+        else:
+            return "画像ファイルが見つかりませんでした"
     else:
         return "散布図は作成されませんでした(軸が未入力です)"
+
 
 @app.route("/clear", methods=["POST"])
 def clear():

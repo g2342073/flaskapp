@@ -4,7 +4,7 @@ import seaborn as sns
 import os
 from flask import current_app
 
-def scatter_plot(x_col, y_col, sample_size=8000):
+def create_scatter_plot(x_col, y_col, sample_size=8000):
     try:
         url = "https://drive.google.com/uc?id=1tXaq961lBxWtHi4HV2kKXrfFOVB_ZTjZ"
         df = pd.read_csv(url)
@@ -19,6 +19,7 @@ def scatter_plot(x_col, y_col, sample_size=8000):
         sample_size = min(sample_size, len(df))
         df_sample = df.sample(n=sample_size, random_state=1)
 
+        static_dir = os.path.join(current_app.root_path, "static")
         os.makedirs(os.path.join(current_app.root_path, "static"), exist_ok=True)
         
 
@@ -29,8 +30,13 @@ def scatter_plot(x_col, y_col, sample_size=8000):
         plt.xlabel(x_col, fontsize=14)
         plt.ylabel(y_col, fontsize=14)
         plt.xticks(rotation=45)
-        plt.show()
+       
+        output_path = os.path.join(static_dir, "scatter.png")
+        plt.savefig(output_path)
+        plt.close()
 
+        return "scatter.png"
+    
 
     except Exception as e:
         print("散布図にエラーが発生しました：", e)
