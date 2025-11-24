@@ -42,14 +42,14 @@
     <form method="POST" action="/scatter">
         <label for="x_col">X軸:</label>
         <select name="x_col">
-            {% for col in columns %}
+            {% for col in scatter_columns %}
                 <option value="{{ col }}">{{ col }}</option>
             {% endfor %}
         </select>
 
         <label for="y_col">Y軸:</label>
         <select name="y_col">
-            {% for col in columns %}
+            {% for col in scatter_columns %}
                 <option value="{{ col }}">{{ col }}</option>
             {% endfor %}
         </select>
