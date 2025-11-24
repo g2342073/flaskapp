@@ -16,32 +16,29 @@ def create_scatter_plot(x_col, y_col):
 
         df = df[[x_col, y_col]].dropna()
 
-        batch_size = 1000
+        sample_size = min(1000, len(df))
+        df_sample = df.sample(n=sample_size, random_state=1)
+
         os.makedirs(os.path.join(current_app.root_path, "static"), exist_ok=True)
-        fig_paths = []
+        
 
-        # 1000件ずつ分割して描画
-        for i in range(0, len(df), batch_size):
-            batch = df.iloc[i:i+batch_size]
 
-            plt.figure(figsize=(8, 6))
-            sns.scatterplot(data=batch, x=x_col, y=y_col, alpha=0.3, s=2)
-            plt.title(f"{x_col} vs {y_col} (batch {i//batch_size+1})")
-            plt.xlabel(x_col)
-            plt.ylabel(y_col)
+        plt.figure(figsize=(8, 6))
+        sns.scatterplot(data=df_sample, x=x_col, y=y_col, alpha=0.3, s=2)
+        plt.title(f"{x_col} vs {y_col} (sample {sample_size})")
+        plt.xlabel(x_col)
+        plt.ylabel(y_col)
 
-            fig_path = os.path.join(
+        fig_path = os.path.join(
                 current_app.root_path,
                 "static",
-                f"scatter_batch_{i//batch_size+1}.png"
+                "scatter_sample.png"
             )
-            plt.savefig(fig_path)
-            plt.close()
+        plt.savefig(fig_path)
+        plt.close()
 
-            fig_paths.append(fig_path)
-
-        print("保存したファイル:", fig_paths)
-        return {"files": fig_path}
+        print("保存先:", fig_path, "存在する？", os.path.exists(fig_path))
+        return fig_path
 
     except Exception as e:
         print("散布図にエラーが発生しました：", e)
