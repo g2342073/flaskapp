@@ -5,7 +5,7 @@ import os
 from flask import current_app
 
 # 散布図用の CSV ファイル（Google Drive 直リンクなど）
-CSV_URL = "https://drive.google.com/file/d/1tXaq961lBxWtHi4HV2kKXrfFOVB_ZTjZ/view?usp=drive_link"  # ←ここを散布図用CSVに変更
+CSV_URL = "https://drive.google.com/uc?id=1tXaq961lBxWtHi4HV2kKXrfFOVB_ZTjZ"  # ←ここを散布図用CSVに変更
 
 def get_scatter_columns():
     """
